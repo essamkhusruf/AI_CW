@@ -1,0 +1,19 @@
+symptoms = {
+    "yellow leaves": "Nitrogen Deficiency",
+    "slow growth": "Nitrogen Deficiency",
+    "brown spots": "Fungal Leaf Spot",
+    "circular marks": "Fungal Leaf Spot",
+    "wilting": "Root Rot",
+    "root rot": "Root Rot",
+    "white powder": "Powdery Mildew",
+    "leaf curling": "Powdery Mildew",
+    "insect damage": "Insect Infestation",
+    "leaf holes": "Insect Infestation"
+}
+
+s = input("Enter plant symptom: ").lower()
+
+if s in symptoms:
+    print("Diagnosis:", symptoms[s])
+else:
+    print("Diagnosis: Unknown problem, more information needed")
