@@ -1,0 +1,295 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semanticweb.org/essam/ontologies/2025/10/untitled-ontology-4"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://www.semanticweb.org/essam/ontologies/2025/10/untitled-ontology-4">
+    <Prefix name="" IRI="http://www.semanticweb.org/essam/ontologies/2025/10/untitled-ontology-4/"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="#Actuator"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Bedroom"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Device"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Fan"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Fan1"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Home"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Home1"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HumiditySensor"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HumiditySensor1"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Kitchen"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Light"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Light1"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LightSensor"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LivingRoom"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Room"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Sensor"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TempSensor1"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TempSensor2"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TempratureSensor"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Thermostat"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Thermostat1"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#Controls"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#LivingRoom"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isLocatedIn"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#HasHumidity"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#OFF"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#ON"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasState"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasTemperature"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#&apos;0&apos;"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#&apos;25&apos;"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#50"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Bedroom"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Fan1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Home1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#HumiditySensor1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Kitchen"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Light1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#LivingRoom"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TempSensor1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TempSensor2"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Thermostat1"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#Actuator"/>
+        <Class IRI="#Device"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Bedroom"/>
+        <Class IRI="#Room"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fan"/>
+        <Class IRI="#Actuator"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fan1"/>
+        <Class IRI="#Fan"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Home1"/>
+        <Class IRI="#Home"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HumiditySensor"/>
+        <Class IRI="#Sensor"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HumiditySensor1"/>
+        <Class IRI="#HumiditySensor"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Kitchen"/>
+        <Class IRI="#Room"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Light"/>
+        <Class IRI="#Actuator"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Light1"/>
+        <Class IRI="#Light"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LightSensor"/>
+        <Class IRI="#Sensor"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LivingRoom"/>
+        <Class IRI="#Room"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Room"/>
+        <Class IRI="#Home"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Sensor"/>
+        <Class IRI="#Device"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TempSensor1"/>
+        <Class IRI="#TempratureSensor"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TempSensor2"/>
+        <Class IRI="#TempratureSensor"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TempratureSensor"/>
+        <Class IRI="#Sensor"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Thermostat"/>
+        <Class IRI="#Actuator"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Thermostat1"/>
+        <Class IRI="#Thermostat"/>
+    </SubClassOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#LivingRoom"/>
+        <ObjectProperty IRI="#isLocatedIn"/>
+    </SubObjectPropertyOf>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#Controls"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#Controls"/>
+            <Class IRI="#Actuator"/>
+        </ObjectSomeValuesFrom>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isLocatedIn"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isLocatedIn"/>
+            <Class IRI="#Device"/>
+        </ObjectSomeValuesFrom>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#Controls"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#Controls"/>
+            <Class IRI="#Device"/>
+        </ObjectSomeValuesFrom>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isLocatedIn"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isLocatedIn"/>
+            <Class IRI="#Room"/>
+        </ObjectSomeValuesFrom>
+    </ObjectPropertyRange>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#OFF"/>
+        <DataProperty IRI="#hasState"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#ON"/>
+        <DataProperty IRI="#hasState"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#&apos;0&apos;"/>
+        <DataProperty IRI="#hasTemperature"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#&apos;25&apos;"/>
+        <DataProperty IRI="#hasTemperature"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#50"/>
+        <DataProperty IRI="#HasHumidity"/>
+    </SubDataPropertyOf>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasState"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+            <Class IRI="#Actuator"/>
+        </ObjectSomeValuesFrom>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasTemperature"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+            <Class IRI="#TempratureSensor"/>
+        </ObjectSomeValuesFrom>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasState"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasTemperature"/>
+        <Datatype abbreviatedIRI="xsd:float"/>
+    </DataPropertyRange>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
