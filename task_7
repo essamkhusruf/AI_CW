@@ -1,0 +1,223 @@
+import heapq
+import collections
+from typing import List, Tuple, Dict, Optional, Set
+
+# --- 1. Maze Representation ---
+
+# The maze is transcribed from the image (10 rows, 10 columns).
+# 'S': Start, 'E': End, '#': Wall (Black), ' ': Path (White)
+# Note: The coordinates for S are (0, 0) and for E are (9, 9).
+MAZE_GRID = [
+    "S # # # # # # # # #", # Row 0
+    "  #   #   #   #   #", # Row 1
+    "# # # # # # # #   #", # Row 2
+    "#   # #   #   # # #", # Row 3
+    "# # # # # # # #   #", # Row 4
+    "#   #   #   # # # #", # Row 5
+    "# # # # # # #   # #", # Row 6
+    "#   #   # # # # # #", # Row 7
+    "# # # # #   #   # #", # Row 8
+    "# # # # # # # #   E"  # Row 9 (E is at (9, 9))
+]
+
+GRID_HEIGHT = len(MAZE_GRID)
+# We split the first row to get the number of columns
+GRID_WIDTH = len(MAZE_GRID[0].split())
+WALL = '#'
+START_CHAR = 'S'
+END_CHAR = 'E'
+
+def get_coordinates(char: str) -> Tuple[int, int]:
+    """Finds the (row, col) coordinates of a specific character in the maze."""
+    for r in range(GRID_HEIGHT):
+        try:
+            # Split the string by space to get individual cell contents
+            c = MAZE_GRID[r].split().index(char)
+            return r, c
+        except ValueError:
+            continue
+    raise ValueError(f"Character '{char}' not found in maze.")
+
+# Define Start and End based on the transcribed grid
+START = get_coordinates(START_CHAR)
+END = get_coordinates(END_CHAR)
+
+def is_valid_move(r: int, c: int) -> bool:
+    """Checks if a position is within bounds and not a wall."""
+    if 0 <= r < GRID_HEIGHT and 0 <= c < GRID_WIDTH:
+        # Check the character at the grid position
+        return MAZE_GRID[r].split()[c] != WALL
+    return False
+
+def get_neighbors(r: int, c: int) -> List[Tuple[int, int]]:
+    """Returns a list of valid, non-wall neighbors for a given cell (up, down, left, right)."""
+    neighbors = []
+    for dr, dc in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+        nr, nc = r + dr, c + dc
+        if is_valid_move(nr, nc):
+            neighbors.append((nr, nc))
+    return neighbors
+
+# --- 2. Breadth-First Search (BFS) Implementation ---
+
+def solve_bfs() -> Optional[Tuple[List[Tuple[int, int]], int]]:
+    """
+    Implements Breadth-First Search (Uninformed Search).
+    Uses a Queue (deque) and guarantees the shortest path (optimal Path Length).
+    """
+    queue = collections.deque([START])
+    # Stores the parent of each node to reconstruct the path
+    path_history: Dict[Tuple[int, int], Optional[Tuple[int, int]]] = {START: None}
+    explored_nodes = 0
+
+    while queue:
+        r, c = queue.popleft()
+        explored_nodes += 1
+
+        if (r, c) == END:
+            # Reconstruct path and return it along with the number of explored nodes (Time complexity metric)
+            path = []
+            curr = END
+            while curr is not None:
+                path.append(curr)
+                curr = path_history[curr]
+            path.reverse()
+            return path, explored_nodes
+
+        for nr, nc in get_neighbors(r, c):
+            if (nr, nc) not in path_history:
+                path_history[(nr, nc)] = (r, c)
+                queue.append((nr, nc))
+
+    return None, explored_nodes
+
+# --- 3. A* Search Implementation ---
+
+def manhattan_distance(r1: int, c1: int, r2: int, c2: int) -> int:
+    """Heuristic function: Manhattan distance (h(n)). Admissible for a grid."""
+    return abs(r1 - r2) + abs(c1 - c2)
+
+def solve_a_star() -> Optional[Tuple[List[Tuple[int, int]], int]]:
+    """
+    Implements A* Search (Informed Search).
+    Uses f(n) = g(n) + h(n) and a Priority Queue (heapq).
+    """
+    # Priority Queue stores: (f_cost, g_cost, node_coords). f_cost is used for priority.
+    start_h = manhattan_distance(START[0], START[1], END[0], END[1])
+    priority_queue: List[Tuple[int, int, Tuple[int, int]]] = [(start_h, 0, START)]
+
+    # g_cost_map stores g(n): cost from start to n
+    g_cost_map: Dict[Tuple[int, int], int] = {START: 0}
+
+    # path_history stores the parent node for path reconstruction
+    path_history: Dict[Tuple[int, int], Optional[Tuple[int, int]]] = {START: None}
+    explored_nodes = 0
+
+    while priority_queue:
+        # Pop the node with the lowest f_cost
+        f_cost, g_cost, (r, c) = heapq.heappop(priority_queue)
+        explored_nodes += 1
+
+        # Guard against processing stale entries in the priority queue
+        if g_cost > g_cost_map.get((r, c), float('inf')):
+            continue
+
+        if (r, c) == END:
+            # Reconstruct path and return
+            path = []
+            curr = END
+            while curr is not None:
+                path.append(curr)
+                curr = path_history[curr]
+            path.reverse()
+            return path, explored_nodes
+
+        # Explore neighbors
+        for nr, nc in get_neighbors(r, c):
+            new_g_cost = g_cost + 1 # Cost of moving to a neighbor is 1
+
+            # If this is a shorter path to (nr, nc) than previously known
+            if new_g_cost < g_cost_map.get((nr, nc), float('inf')):
+                g_cost_map[(nr, nc)] = new_g_cost
+                path_history[(nr, nc)] = (r, c)
+
+                h_cost = manhattan_distance(nr, nc, END[0], END[1])
+                f_cost = new_g_cost + h_cost
+
+                # Push the neighbor onto the priority queue
+                heapq.heappush(priority_queue, (f_cost, new_g_cost, (nr, nc)))
+
+    return None, explored_nodes
+
+# --- 4. Execution and Comparison ---
+
+def print_maze_solution(path: List[Tuple[int, int]], algorithm_name: str):
+    """Prints the maze with the solution path marked by '*'."""
+    print(f"\n--- Solution Path ({algorithm_name}) ---")
+    solved_grid = [row.split() for row in MAZE_GRID]
+
+    # Mark the path, excluding Start and End
+    for r, c in path:
+        if (r, c) != START and (r, c) != END:
+            solved_grid[r][c] = '*'
+
+    for row in solved_grid:
+        print(" ".join(row))
+
+def main():
+    print("Starting Maze Solver (10x10 Grid)")
+    print(f"Start: {START}, End: {END}")
+    print("-" * 40)
+
+    # --- BFS Execution ---
+    bfs_path, bfs_explored = solve_bfs()
+    if bfs_path:
+        bfs_path_length = len(bfs_path) - 1 # Path length is steps/edges
+        print(f"BFS found a solution.")
+        print(f"   Path Length: {bfs_path_length} steps (Path Length metric)")
+        print(f"   Nodes Explored: {bfs_explored} (Time Complexity metric)")
+        print_maze_solution(bfs_path, "BFS")
+    else:
+        print("BFS failed to find a solution.")
+        bfs_path_length = 0
+        bfs_explored = 0
+
+    print("-" * 40)
+
+    # --- A* Execution ---
+    a_star_path, a_star_explored = solve_a_star()
+    if a_star_path:
+        a_star_path_length = len(a_star_path) - 1
+        print(f"A* Search found a solution (Manhattan Heuristic).")
+        print(f"   Path Length: {a_star_path_length} steps (Path Length metric)")
+        print(f"   Nodes Explored: {a_star_explored} (Time Complexity metric)")
+        print_maze_solution(a_star_path, "A* Search")
+    else:
+        print("A* Search failed to find a solution.")
+        a_star_path_length = 0
+        a_star_explored = 0
+
+    print("\n" + "=" * 60)
+    print("Performance Comparison of Search Algorithms")
+    print("=" * 60)
+
+    print("\n**1. Path Length (Optimality):**")
+    print(f"   BFS Path Length: {bfs_path_length}")
+    print(f"   A* Path Length: {a_star_path_length}")
+    if bfs_path_length > 0 and bfs_path_length == a_star_path_length:
+        print("   -> Both algorithms found the shortest (optimal) path length.")
+
+    print("\n**2. Time Complexity (Efficiency in Practice):**")
+    print(f"   BFS Nodes Explored: {bfs_explored}")
+    print(f"   A* Nodes Explored: {a_star_explored}")
+    if a_star_explored < bfs_explored:
+        print(f"   -> A* ({a_star_explored} nodes) is significantly faster than BFS ({bfs_explored} nodes).")
+        print("   A* uses the heuristic to guide its search, exploring far fewer nodes.")
+
+    print("\n**3. Space Complexity (Memory Use):**")
+    print("   Both are theoretically exponential in the worst case, O(b^d).")
+    print("   -> In practice, A* typically uses less space because it explores (and thus stores) fewer total nodes before reaching the goal.")
+    print("=" * 60)
+
+if __name__ == "__main__":
+    main()
