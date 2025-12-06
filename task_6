@@ -1,0 +1,48 @@
+import numpy as np
+
+n_states = 9
+n_actions = 4
+goal = 8
+obstacle = 4
+gamma = 0.9
+theta = 1e-5
+
+# Transition probabilities (deterministic)
+T = np.zeros((n_actions, n_states, n_states))
+R = np.full((n_states, n_actions), -1.0)
+
+def rc_to_state(r, c):
+    return r*3 + c
+
+for s in range(n_states):
+    if s == obstacle: continue
+    r, c = divmod(s, 3)
+    moves = [(max(r-1,0),c), (min(r+1,2),c), (r,max(c-1,0)), (r,min(c+1,2))]
+    for a, (nr,nc) in enumerate(moves):
+        ns = rc_to_state(nr,nc)
+        if ns == obstacle: ns = s
+        T[a,s,ns] = 1.0
+
+for a in range(n_actions):
+    R[goal,a] = 10
+
+# Value Iteration
+V = np.zeros(n_states)
+policy = np.zeros(n_states, dtype=int)
+
+while True:
+    delta = 0
+    for s in range(n_states):
+        if s == obstacle: continue
+        Q = np.zeros(n_actions)
+        for a in range(n_actions):
+            Q[a] = R[s,a] + gamma * np.sum(T[a,s,:] * V)
+        max_q = np.max(Q)
+        delta = max(delta, abs(max_q - V[s]))
+        V[s] = max_q
+        policy[s] = np.argmax(Q)
+    if delta < theta:
+        break
+
+print("✅ Best Policy (0=Up,1=Down,2=Left,3=Right):", policy)
+print("📈 Value Function:", V)
