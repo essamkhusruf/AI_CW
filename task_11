@@ -1,0 +1,38 @@
+import numpy as np
+import pandas as pd
+
+# ---- 1. Create a simple dataset ----
+data = {
+    "tempo": [90, 120, 130, 100, 150, 140, 110, 115, 98, 160],
+    "danceability": [0.5, 0.8, 0.9, 0.6, 0.95, 0.85, 0.7, 0.75, 0.55, 0.97],
+    "energy": [0.4, 0.9, 0.95, 0.5, 0.97, 0.85, 0.6, 0.7, 0.45, 0.99],
+    "popularity": [40, 75, 80, 50, 90, 85, 60, 65, 45, 95]
+}
+
+df = pd.DataFrame(data)
+
+# ---- 2. Prepare X and y ----
+X = df[["tempo", "danceability", "energy"]].values
+y = df["popularity"].values
+
+# Add bias term (column of ones)
+X_b = np.c_[np.ones((X.shape[0], 1)), X]
+
+# ---- 3. Compute parameters using Normal Equation ----
+# θ = (X^T * X)^(-1) * X^T * y
+theta = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(y)
+
+print("Model Parameters (theta):")
+print(theta)
+
+# ---- 4. Predict ----
+y_pred = X_b.dot(theta)
+
+# ---- 5. Compute Mean Squared Error ----
+mse = np.mean((y_pred - y) ** 2)
+
+print("\nPredictions:")
+print(y_pred)
+print("\nReal Values:")
+print(y)
+print("\nMean Squared Error:", mse)
